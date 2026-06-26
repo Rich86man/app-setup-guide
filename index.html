@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Setting Up Claude Code for Your App</title>
+<style>
+  :root{
+    --ink:#1d2433; --muted:#5b6573; --line:#e6e8ee; --bg:#f6f8fc;
+    --brand:#2f6df6; --brand-soft:#eaf1ff;
+    --green:#1aa179; --green-soft:#e7f6f0;
+    --amber:#b7791f; --amber-soft:#fdf4e3;
+    --purple:#6b4df6; --purple-soft:#efeaff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:24px 20px 80px}
+  .hero{
+    background:linear-gradient(135deg,#2f6df6,#6b4df6); color:#fff;
+    border-radius:20px; padding:34px 30px; margin:14px 0 30px;
+    box-shadow:0 12px 30px rgba(47,109,246,.25);
+  }
+  .hero h1{margin:0 0 8px; font-size:30px; line-height:1.2}
+  .hero p{margin:0; font-size:17px; opacity:.95}
+  .hero .tag{
+    display:inline-block; background:rgba(255,255,255,.18); color:#fff;
+    font-size:13px; font-weight:600; padding:4px 12px; border-radius:999px; margin-bottom:14px;
+  }
+  h2{font-size:22px; margin:36px 0 6px}
+  .lead{color:var(--muted); margin:0 0 18px}
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:16px;
+    padding:22px 22px; margin:16px 0; box-shadow:0 1px 2px rgba(20,30,50,.04);
+  }
+  .step{display:flex; gap:16px; align-items:flex-start}
+  .num{
+    flex:0 0 auto; width:38px; height:38px; border-radius:50%;
+    background:var(--brand); color:#fff; font-weight:700; font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step h3{margin:2px 0 6px; font-size:19px}
+  .step p{margin:0 0 8px}
+  ol.sub{margin:8px 0 0; padding-left:20px}
+  ol.sub li{margin:6px 0}
+  .pill{
+    display:inline-block; background:var(--brand-soft); color:#1c49b8;
+    font-weight:600; padding:1px 9px; border-radius:7px; font-size:.95em;
+  }
+  .key{
+    display:inline-block; background:#f1f3f8; border:1px solid var(--line);
+    border-bottom-width:2px; border-radius:6px; padding:0 8px; font-weight:600; font-size:.9em;
+  }
+  .callout{border-radius:14px; padding:16px 18px; margin:16px 0; border:1px solid}
+  .callout .ct{font-weight:700; margin:0 0 4px; display:flex; gap:8px; align-items:center}
+  .callout p{margin:0}
+  .c-green{background:var(--green-soft); border-color:#bfe6d7}
+  .c-green .ct{color:var(--green)}
+  .c-amber{background:var(--amber-soft); border-color:#f0dcae}
+  .c-amber .ct{color:var(--amber)}
+  .c-purple{background:var(--purple-soft); border-color:#d8ccff}
+  .c-purple .ct{color:var(--purple)}
+  /* flow diagram */
+  .flow{display:flex; flex-wrap:wrap; gap:12px; align-items:stretch; margin:8px 0 2px}
+  .node{
+    flex:1 1 180px; background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:16px; text-align:center;
+  }
+  .node .ic{font-size:30px; line-height:1}
+  .node .t{font-weight:700; margin:8px 0 2px}
+  .node .s{font-size:13px; color:var(--muted)}
+  .sync{display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--brand); font-weight:700}
+  .sync .ar{font-size:22px}
+  .faq details{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:2px 16px; margin:10px 0;
+  }
+  .faq summary{cursor:pointer; font-weight:600; padding:12px 0; list-style:none}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"＋ "; color:var(--brand); font-weight:700}
+  .faq details[open] summary::before{content:"－ "}
+  .faq p{margin:0 0 14px; color:var(--muted)}
+  .foot{text-align:center; color:var(--muted); font-size:14px; margin-top:34px}
+  a{color:var(--brand)}
+  @media (max-width:560px){ .hero h1{font-size:25px} .sync{transform:rotate(90deg); padding:4px 0} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="tag">⚡ A quick one-time setup</span>
+    <h1>Let's plug a smarter AI into your app</h1>
+    <p>You'll keep building in Base44 exactly like you do today. This just gives me a way to help improve your app using a more powerful coding assistant called <strong>Claude Code</strong> — and your app keeps publishing itself the same way it always has.</p>
+  </div>
+
+  <p class="lead">There are only <strong>three small things for you to do</strong>, and none of them involve writing code. It takes about 10 minutes. If any screen looks confusing, just take a screenshot and text it to me. 👍</p>
+
+  <!-- BIG PICTURE -->
+  <h2>The big picture</h2>
+  <p class="lead">Think of it like a shared folder for your app's code. You work on one side, I work on the other, and everything stays in sync automatically.</p>
+  <div class="card">
+    <div class="flow">
+      <div class="node">
+        <div class="ic">🧑‍🎨</div>
+        <div class="t">You + Base44</div>
+        <div class="s">Build the way you always have</div>
+      </div>
+      <div class="sync"><span class="ar">⇄</span>&nbsp;auto&nbsp;<span class="ar">⇄</span></div>
+      <div class="node">
+        <div class="ic">📦</div>
+        <div class="t">GitHub</div>
+        <div class="s">A private, shared copy of the code</div>
+      </div>
+      <div class="sync"><span class="ar">⇄</span>&nbsp;auto&nbsp;<span class="ar">⇄</span></div>
+      <div class="node">
+        <div class="ic">🤖</div>
+        <div class="t">Me + Claude Code</div>
+        <div class="s">Make bigger improvements</div>
+      </div>
+    </div>
+    <div class="callout c-green" style="margin-bottom:0">
+      <p class="ct">✓ Nothing about your app changes</p>
+      <p>Base44 still hosts your app, still publishes your changes, still has its own AI you can use anytime. We're only adding a connection — not moving or rebuilding anything.</p>
+    </div>
+  </div>
+
+  <!-- YOUR PART -->
+  <h2>Your part: 3 steps</h2>
+
+  <div class="card">
+    <div class="step">
+      <div class="num">1</div>
+      <div>
+        <h3>Make a free GitHub account</h3>
+        <p>GitHub is the free service that stores the shared copy of your app's code. A free account is all you'll ever need.</p>
+        <ol class="sub">
+          <li>Go to <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a></li>
+          <li>Enter your email, then pick a password and a username (anything you like).</li>
+          <li>When it asks about a plan, choose the <span class="pill">Free</span> plan.</li>
+          <li>Check your email and click the link to confirm your account.</li>
+        </ol>
+        <div class="callout c-amber" style="margin-bottom:0">
+          <p class="ct">✎ Write it down</p>
+          <p>Save your GitHub <strong>username</strong> and <strong>password</strong> somewhere safe — you'll log in once more in Step 2, and that's about it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step">
+      <div class="num">2</div>
+      <div>
+        <h3>Connect Base44 to GitHub</h3>
+        <p>This is the magic step — it links your Base44 app to that shared copy so everything stays in sync.</p>
+        <ol class="sub">
+          <li>Open your app in Base44, like normal.</li>
+          <li>Look for a <span class="pill">GitHub</span> option — it's usually under the app's <strong>settings</strong> or a <strong>“&lt;/&gt; Code”</strong> / developer menu. (If you can't find it, screenshot the screen and send it to me.)</li>
+          <li>Click <strong>Connect</strong> and sign in with the GitHub account you just made. Click <strong>Authorize</strong> when GitHub asks for permission.</li>
+          <li>When it offers to create a repository, choose <span class="pill">Private</span> and let it create a new one. You can name it after your app.</li>
+        </ol>
+        <div class="callout c-purple" style="margin-bottom:0">
+          <p class="ct">🔒 Why “Private”?</p>
+          <p>A <strong>private</strong> repository means only you (and people you invite, like me) can see the code. The public can't. Choose Private and you're set.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step">
+      <div class="num">3</div>
+      <div>
+        <h3>Invite me, then tell me it's done</h3>
+        <p>So I can help with the code, add me to your new repository:</p>
+        <ol class="sub">
+          <li>On GitHub, open your new repository.</li>
+          <li>Click <span class="key">Settings</span> → <span class="key">Collaborators</span> → <strong>Add people</strong>.</li>
+          <li>Add my GitHub username: <span class="key">Rich86man</span></li>
+          <li>Text me that it's connected — and you're done! 🎉</li>
+        </ol>
+        <div class="callout c-green" style="margin-bottom:0">
+          <p class="ct">✓ That's everything on your end</p>
+          <p>You never have to touch GitHub again unless you want to. Keep building in Base44 as usual.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW WE MAKE CHANGES -->
+  <h2>How we'll make changes after that</h2>
+  <p class="lead">You don't need to learn any of this — it's just so you know what's happening behind the scenes.</p>
+  <div class="card">
+    <ol class="sub" style="padding-left:18px">
+      <li><strong>I pull down the latest code</strong> from the shared GitHub copy onto my computer.</li>
+      <li><strong>I describe what we want in plain English to Claude Code</strong> — for example, “add a search box to the jobs page” — and it writes and edits the code for me.</li>
+      <li><strong>I send the changes back</strong> to GitHub.</li>
+      <li><strong>Base44 picks them up automatically</strong> and they show up in your live app — same as if they'd been made in Base44.</li>
+    </ol>
+    <div class="callout c-amber" style="margin-bottom:0">
+      <p class="ct">⚠ One small habit</p>
+      <p>To avoid us bumping into each other, let's not both edit at the same moment. If you're about to do a big editing session in Base44, give me a heads-up — and I'll do the same before I push changes. Day-to-day little tweaks are totally fine.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <h2>Common questions</h2>
+  <div class="faq">
+    <details>
+      <summary>Does this cost anything?</summary>
+      <p>No. The GitHub account is free, and the connection to Base44 is part of your existing setup. Your Base44 plan stays whatever it is now.</p>
+    </details>
+    <details>
+      <summary>Will my app or my Base44 editor change?</summary>
+      <p>No. Your app runs and publishes exactly the same way. You keep using Base44 and its built-in AI whenever you want. We're only adding a second door into the same house.</p>
+    </details>
+    <details>
+      <summary>What even is “GitHub” and a “repository”?</summary>
+      <p>GitHub is a free website that safely stores copies of code. A “repository” (or “repo”) is just the folder that holds your app's code. Base44 keeps it perfectly in sync with your app for you.</p>
+    </details>
+    <details>
+      <summary>Is my code safe and private?</summary>
+      <p>Yes — that's why we choose a <strong>Private</strong> repository in Step 2. Only you and people you specifically invite can see it.</p>
+    </details>
+    <details>
+      <summary>Do I have to learn to code or use “git”?</summary>
+      <p>Not at all. Your only job is the 3 steps above. Everything technical happens on my side.</p>
+    </details>
+    <details>
+      <summary>Can we undo this later?</summary>
+      <p>Anytime. Disconnecting GitHub in Base44 leaves your app completely untouched.</p>
+    </details>
+  </div>
+
+  <p class="foot">Made with ❤️ to keep your app easy for you and powerful for us.<br/>Stuck on any step? Screenshot it and text me.</p>
+
+</div>
+</body>
+</html>
